@@ -32,16 +32,60 @@
 # -105 <= nums[i] <= 105
 
 
+# with Explanation
+
+def three_sum(nums)
+  # Edge case: if the length of `nums` is less than 3, it's not possible to form a triplet
+  return [] if nums.length < 3
+
+  # Sort the array so that we can use two pointers to iterate through the array
+  nums.sort!
+
+  # Initialize an empty result array
+  result = []
+
+  # Iterate through the array
+  (0...nums.length).each do |i|
+    # Skip duplicate values to avoid getting the same triplets
+    next if i > 0 && nums[i] == nums[i-1]
+
+    # Initialize the two pointers
+    left = i + 1
+    right = nums.length - 1
+
+    # Use two pointers to find the other two values that sum up to 0
+    while left < right
+      sum = nums[i] + nums[left] + nums[right]
+
+      # If the sum is 0, add the triplet to the result array and move the pointers
+      if sum == 0
+        result << [nums[i], nums[left], nums[right]]
+        left += 1
+        right -= 1
+
+        # Skip duplicate values
+        while left < right && nums[left] == nums[left-1]
+          left += 1
+        end
+        while left < right && nums[right] == nums[right+1]
+          right -= 1
+        end
+      # If the sum is less than 0, move the left pointer
+      elsif sum < 0
+        left += 1
+      # If the sum is greater than 0, move the right pointer
+      else
+        right -= 1
+      end
+    end
+  end
+
+  # Return the result array
+  result
+end
 
 
-
-
-
-
-
-
-
-
+# Pure code
 
 
 def three_sum(nums)
